@@ -1,4 +1,4 @@
-package fwcd.mcdiscordbridge;
+package fwcd.mcdiscordbridge.plugin;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
