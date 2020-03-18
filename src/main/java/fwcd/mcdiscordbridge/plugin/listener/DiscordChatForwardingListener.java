@@ -8,6 +8,10 @@ import fwcd.mcdiscordbridge.bot.registry.TextChannelRegistry;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.TextChannel;
 
+/**
+ * A listener that forwards Minecraft chat messages to
+ * subscribed Discord text channels.
+ */
 public class DiscordChatForwardingListener implements Listener {
     private final JDA jda;
     private final TextChannelRegistry subscribedChannels;
