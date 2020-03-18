@@ -5,6 +5,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+
 import fwcd.mcdiscordbridge.bot.command.BotCommand;
 import fwcd.mcdiscordbridge.bot.command.EchoCommand;
 import fwcd.mcdiscordbridge.bot.command.SummonCommand;
@@ -17,10 +20,12 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class DiscordBridgeBot extends ListenerAdapter {
     private final Pattern commandPattern;
+    private final TextChannelRegistry subscribedChannels;
     private final Map<String, BotCommand> commands = new HashMap<>();
     
     public DiscordBridgeBot(String commandPrefix, TextChannelRegistry subscribedChannels) {
-        commandPattern = Pattern.compile(Pattern.quote(commandPrefix) + "(\\w+)\\s*(.+)");
+        this.subscribedChannels = subscribedChannels;
+        commandPattern = Pattern.compile(Pattern.quote(commandPrefix) + "(\\w+)\\s*(.*)");
 
         commands.put("echo", new EchoCommand());
         commands.put("summon", new SummonCommand(subscribedChannels));
@@ -40,12 +45,22 @@ public class DiscordBridgeBot extends ListenerAdapter {
         if (matcher.matches()) {
             String commandName = matcher.group(1);
             String args = matcher.group(2);
-            BotCommand command = commands.get(commandName);
-            if (command != null) {
-                command.invoke(args, message);
-            } else {
-                event.getChannel().sendMessage("Sorry, I could not find the command `" + commandName + "`").queue();
-            }
+            handleCommandInvocation(commandName, args, message);
+        } else if (subscribedChannels.containsChannelOf(message)) {
+            handleMinecraftForwarding(message);
         }
+    }
+    
+    private void handleCommandInvocation(String commandName, String args, Message message) {
+        BotCommand command = commands.get(commandName);
+        if (command != null) {
+            command.invoke(args, message);
+        } else {
+            message.getChannel().sendMessage("Sorry, I could not find the command `" + commandName + "`").queue();
+        }
+    }
+    
+    private void handleMinecraftForwarding(Message message) {
+        Bukkit.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + "[Discord] " + message.getAuthor().getName() + ": " + ChatColor.WHITE + message.getContentDisplay());
     }
 }
