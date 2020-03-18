@@ -7,14 +7,14 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import fwcd.mcdiscordbridge.utils.StringUtils;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.managers.Presence;
 
 public class DiscordPresenceUpdatingListener implements Listener {
-    private final Presence presence;
+    private final JDA jda;
     
-    public DiscordPresenceUpdatingListener(Presence presence) {
-        this.presence = presence;
+    public DiscordPresenceUpdatingListener(JDA jda) {
+        this.jda = jda;
     }
 
     @EventHandler
@@ -29,6 +29,6 @@ public class DiscordPresenceUpdatingListener implements Listener {
     
     private void updateActivity() {
         int playerCount = Bukkit.getOnlinePlayers().size();
-        presence.setActivity(Activity.playing(playerCount + " " + StringUtils.pluralize("player", playerCount) + " online"));
+        jda.getPresence().setActivity(Activity.playing(playerCount + " " + StringUtils.pluralize("player", playerCount) + " online"));
     }
 }
