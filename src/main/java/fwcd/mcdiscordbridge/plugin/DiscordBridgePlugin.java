@@ -4,7 +4,6 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import club.minnced.discord.webhook.WebhookClient;
-import club.minnced.discord.webhook.WebhookClientBuilder;
 import fwcd.mcdiscordbridge.bot.DiscordBridgeBot;
 import fwcd.mcdiscordbridge.bot.registry.TextChannelRegistry;
 import fwcd.mcdiscordbridge.plugin.listener.DiscordChatForwardingListener;
@@ -21,6 +20,7 @@ public class DiscordBridgePlugin extends JavaPlugin {
         DiscordBridgeLogger.get().info("Starting Discord bridge...");
         
         getConfig().addDefault(DiscordBridgeConfigKey.BOT_TOKEN, "");
+        getConfig().addDefault(DiscordBridgeConfigKey.BOT_COMMAND_PREFIX, "+");
         getConfig().addDefault(DiscordBridgeConfigKey.WEBHOOK_URL, "");
         getConfig().addDefault(DiscordBridgeConfigKey.WEBHOOK_ENABLED, false);
         getConfig().options().copyDefaults(true);
@@ -28,7 +28,7 @@ public class DiscordBridgePlugin extends JavaPlugin {
         
         try {
             TextChannelRegistry subscribedChannels = new TextChannelRegistry();
-            DiscordBridgeBot bot = new DiscordBridgeBot("+", subscribedChannels);
+            DiscordBridgeBot bot = new DiscordBridgeBot(getConfig().getString(DiscordBridgeConfigKey.BOT_COMMAND_PREFIX), subscribedChannels);
             JDA jda = JDABuilder.createDefault(getConfig().getString(DiscordBridgeConfigKey.BOT_TOKEN))
                 .addEventListeners(bot)
                 .build();
