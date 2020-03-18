@@ -1,10 +1,12 @@
 package fwcd.mcdiscordbridge.plugin;
 
-import javax.security.auth.login.LoginException;
-
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import fwcd.mcdiscordbridge.bot.DiscordBridgeBot;
+import fwcd.mcdiscordbridge.plugin.listener.DiscordChatForwardingListener;
+import fwcd.mcdiscordbridge.plugin.listener.DiscordPresenceUpdatingListener;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 
 public class DiscordBridgePlugin extends JavaPlugin {
@@ -20,13 +22,15 @@ public class DiscordBridgePlugin extends JavaPlugin {
         
         try {
             DiscordBridgeBot bot = new DiscordBridgeBot("+");
-            JDABuilder.createDefault(getConfig().getString(BOT_TOKEN_CONFIG_KEY))
+            JDA jda = JDABuilder.createDefault(getConfig().getString(BOT_TOKEN_CONFIG_KEY))
                 .addEventListeners(bot)
                 .build();
-        } catch (LoginException e) {
-            getLogger().warning("Could not start Discord bot: " + e.getMessage());
+            
+            PluginManager manager = getServer().getPluginManager();
+            manager.registerEvents(new DiscordChatForwardingListener(), this);
+            manager.registerEvents(new DiscordPresenceUpdatingListener(jda.getPresence()), this);
+        } catch (Exception e) {
+            getLogger().warning("Could not start Discord bridge: " + e.getClass().getSimpleName() + " - " + e.getMessage());
         }
-
-        getServer().getPluginManager().registerEvents(new DiscordForwardingChatListener(), this);
     }
 }
