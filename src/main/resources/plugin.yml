@@ -1,0 +1,4 @@
+main: fwcd.mcdiscordbridge.plugin.DiscordBridgePlugin
+name: DiscordBridgePlugin
+version: 0.1
+
