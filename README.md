@@ -1,5 +1,5 @@
 # Discord Bridge Plugin for Minecraft
-A Spigot plugin that relays the chat between Minecraft and Discord.
+A Spigot plugin that enables two-way messaging between Minecraft and Discord.
 
 ## Building
 To build the plugin JAR, run `./gradlew jar`.
@@ -8,5 +8,10 @@ To build the plugin JAR, run `./gradlew jar`.
 To use the plugin, place the JAR in your Spigot server's `plugins` folder. Additionally, create a subdirectory named `DiscordBridge` with a file `config.yaml`:
 
 ```yaml
-botToken: "YOUR_BOT_TOKEN"
+bot:
+  token: YOUR_BOT_TOKEN
+  commandPrefix: +
+webhook:
+  url: YOUR_WEBHOOK_URL
+  enabled: true
 ```
