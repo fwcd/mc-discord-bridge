@@ -18,3 +18,12 @@ dependencies {
     compileOnly 'org.spigotmc:spigot:1.15.2-R0.1-SNAPSHOT' // The full Spigot server
     compileOnly 'org.bukkit:bukkit:1.15.2-R0.1-SNAPSHOT'
 }
+
+jar {
+    from {
+        // Package dependencies in JAR
+        configurations.runtimeClasspath
+            .findAll { !it.getName().endsWith(".pom") }
+            .collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
