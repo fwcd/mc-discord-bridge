@@ -1,5 +1,8 @@
 package fwcd.mcdiscordbridge.plugin;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -23,11 +26,17 @@ public class DiscordBridgePlugin extends JavaPlugin {
         getConfig().addDefault(DiscordBridgeConfigKey.BOT_COMMAND_PREFIX, "+");
         getConfig().addDefault(DiscordBridgeConfigKey.WEBHOOK_URL, "");
         getConfig().addDefault(DiscordBridgeConfigKey.WEBHOOK_ENABLED, false);
+        getConfig().addDefault(DiscordBridgeConfigKey.SUBSCRIBED_CHANNELS, Collections.emptyList());
         getConfig().options().copyDefaults(true);
         saveConfig();
         
         try {
-            TextChannelRegistry subscribedChannels = new TextChannelRegistry();
+            List<String> initialSubscribedChannels = getConfig().getStringList(DiscordBridgeConfigKey.SUBSCRIBED_CHANNELS);
+            TextChannelRegistry subscribedChannels = new TextChannelRegistry(initialSubscribedChannels, chIds -> {
+                getConfig().set(DiscordBridgeConfigKey.SUBSCRIBED_CHANNELS, chIds);
+                saveConfig();
+            });
+
             DiscordBridgeBot bot = new DiscordBridgeBot(getConfig().getString(DiscordBridgeConfigKey.BOT_COMMAND_PREFIX), subscribedChannels);
             JDA jda = JDABuilder.createDefault(getConfig().getString(DiscordBridgeConfigKey.BOT_TOKEN))
                 .addEventListeners(bot)
