@@ -46,7 +46,7 @@ public class DiscordBridgeBot extends ListenerAdapter {
             String commandName = matcher.group(1);
             String args = matcher.group(2);
             handleCommandInvocation(commandName, args, message);
-        } else if (subscribedChannels.containsChannelOf(message)) {
+        } else if (subscribedChannels.containsChannelOf(message) && !message.getAuthor().isBot()) {
             handleMinecraftForwarding(message);
         }
     }
