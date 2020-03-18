@@ -23,17 +23,18 @@ public class DiscordPresenceUpdatingListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        updateActivity();
+        int playerCount = Bukkit.getOnlinePlayers().size();
+        updateActivity(playerCount);
     }
     
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        updateActivity();
+        int playerCount = (int) Bukkit.getOnlinePlayers().stream().filter(it -> !it.equals(event.getPlayer())).count();
+        updateActivity(playerCount);
     }
     
-    private void updateActivity() {
-        DiscordBridgeLogger.get().info("Updating Discord activity");
-        int playerCount = Bukkit.getOnlinePlayers().size();
+    private void updateActivity(int playerCount) {
+        DiscordBridgeLogger.get().info("Updating Discord activity to player count " + playerCount);
         jda.getPresence().setActivity(Activity.playing(playerCount + " " + StringUtils.pluralize("player", playerCount) + " online"));
     }
 }
