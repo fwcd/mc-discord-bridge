@@ -7,22 +7,25 @@ import java.util.regex.Pattern;
 
 import fwcd.mcdiscordbridge.bot.command.BotCommand;
 import fwcd.mcdiscordbridge.bot.command.EchoCommand;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class DiscordBridgeBot extends ListenerAdapter {
-    private final String commandPrefix;
     private final Pattern commandPattern;
     private final Map<String, BotCommand> commands = new HashMap<>();
     
-    {
-        commands.put("test", new EchoCommand());
-    }
-    
     public DiscordBridgeBot(String commandPrefix) {
-        this.commandPrefix = commandPrefix;
         commandPattern = Pattern.compile(Pattern.quote(commandPrefix) + "(\\w+)\\s+(.+)");
+
+        commands.put("echo", new EchoCommand());
+        commands.put("help", (args, msg) -> msg.getChannel().sendMessage(new EmbedBuilder()
+            .setTitle(":?: Available Commands")
+            .setDescription(commands.keySet().stream()
+                .map(name -> commandPrefix + name)
+                .reduce((x, y) -> x + "\n" + y).orElse("_none_"))
+            .build()));
     }
 
     @Override
