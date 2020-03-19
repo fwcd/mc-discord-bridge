@@ -25,4 +25,6 @@ jar {
             .findAll { !it.getName().endsWith(".pom") }
             .collect { it.isDirectory() ? it : zipTree(it) }
     }
+    archiveBaseName = 'DiscordBridge'
+    destinationDirectory = file 'target'
 }
