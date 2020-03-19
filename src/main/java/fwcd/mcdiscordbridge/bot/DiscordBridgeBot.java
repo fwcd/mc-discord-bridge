@@ -12,6 +12,7 @@ import fwcd.mcdiscordbridge.bot.command.BotCommand;
 import fwcd.mcdiscordbridge.bot.command.EchoCommand;
 import fwcd.mcdiscordbridge.bot.command.SummonCommand;
 import fwcd.mcdiscordbridge.bot.command.UnsummonCommand;
+import fwcd.mcdiscordbridge.bot.command.ListCommand;
 import fwcd.mcdiscordbridge.bot.registry.TextChannelRegistry;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
@@ -30,6 +31,7 @@ public class DiscordBridgeBot extends ListenerAdapter {
         commands.put("echo", new EchoCommand());
         commands.put("summon", new SummonCommand(subscribedChannels));
         commands.put("unsummon", new UnsummonCommand(subscribedChannels));
+        commands.put("list", new ListCommand());
         commands.put("help", (args, msg) -> msg.getChannel().sendMessage(new EmbedBuilder()
             .setTitle("Available Commands")
             .setDescription(commands.keySet().stream()
