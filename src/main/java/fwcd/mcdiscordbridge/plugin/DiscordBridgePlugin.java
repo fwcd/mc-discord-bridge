@@ -3,6 +3,7 @@ package fwcd.mcdiscordbridge.plugin;
 import java.util.Collections;
 import java.util.List;
 
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -49,11 +50,30 @@ public class DiscordBridgePlugin extends JavaPlugin {
             manager.registerEvents(new DiscordChannelDeathMessageForwarder(jda, subscribedChannels), this);
             manager.registerEvents(new DiscordChannelJoinLeaveMessageForwarder(jda, subscribedChannels), this);
             
-            if (getConfig().getBoolean(DiscordBridgeConfigKey.WEBHOOK_ENABLED)) {
+            boolean webhookEnabled = getConfig().getBoolean(DiscordBridgeConfigKey.WEBHOOK_ENABLED);
+            if (webhookEnabled) {
                 String webhookUrl = getConfig().getString(DiscordBridgeConfigKey.WEBHOOK_URL);
                 manager.registerEvents(new DiscordWebhookChatForwarder(WebhookClient.withUrl(webhookUrl)), this);
             } else {
                 manager.registerEvents(new DiscordChannelChatForwarder(jda, subscribedChannels), this);
+            }
+            
+            String dynmapPluginName = "dynmap";
+            boolean dynmapAvailable = manager.getPlugin(dynmapPluginName) != null && manager.isPluginEnabled(dynmapPluginName);
+            if (dynmapAvailable) {
+                DiscordBridgeLogger.get().info("Enabling Dynmap web chat integration...");
+
+                if (webhookEnabled) {
+                    manager.registerEvents((Listener) Class.forName("fwcd.mcdiscordbridge.plugin.listener.DiscordWebhookWebChatForwarder")
+                        .getConstructor(JDA.class, TextChannelRegistry.class)
+                        .newInstance(jda, subscribedChannels), this);
+                } else {
+                    manager.registerEvents((Listener) Class.forName("fwcd.mcdiscordbridge.plugin.listener.DiscordChannelWebChatForwarder")
+                        .getConstructor(JDA.class, TextChannelRegistry.class)
+                        .newInstance(jda, subscribedChannels), this);
+                }
+            } else {
+                DiscordBridgeLogger.get().info("Skipping Dynmap integration");
             }
         } catch (Exception e) {
             getLogger().warning("Could not start Discord bridge: " + e.getClass().getSimpleName() + " - " + e.getMessage());
