@@ -41,13 +41,16 @@ public class DiscordBridgeBot extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         Message message = event.getMessage();
-        Matcher matcher = commandPattern.matcher(message.getContentDisplay());
-        if (matcher.matches()) {
-            String commandName = matcher.group(1);
-            String args = matcher.group(2);
-            handleCommandInvocation(commandName, args, message);
-        } else if (subscribedChannels.containsChannelOf(message) && !message.getAuthor().isBot()) {
-            handleMinecraftForwarding(message);
+        
+        if (!message.getAuthor().isBot()) {
+            Matcher matcher = commandPattern.matcher(message.getContentDisplay());
+            if (matcher.matches()) {
+                String commandName = matcher.group(1);
+                String args = matcher.group(2);
+                handleCommandInvocation(commandName, args, message);
+            } else if (subscribedChannels.containsChannelOf(message)) {
+                handleMinecraftForwarding(message);
+            }
         }
     }
     
