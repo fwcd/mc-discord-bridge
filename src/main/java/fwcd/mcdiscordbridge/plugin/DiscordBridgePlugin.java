@@ -51,9 +51,11 @@ public class DiscordBridgePlugin extends JavaPlugin {
             manager.registerEvents(new DiscordChannelJoinLeaveMessageForwarder(jda, subscribedChannels), this);
             
             boolean webhookEnabled = getConfig().getBoolean(DiscordBridgeConfigKey.WEBHOOK_ENABLED);
+            WebhookClient webhookClient = null;
             if (webhookEnabled) {
                 String webhookUrl = getConfig().getString(DiscordBridgeConfigKey.WEBHOOK_URL);
-                manager.registerEvents(new DiscordWebhookChatForwarder(WebhookClient.withUrl(webhookUrl)), this);
+                webhookClient = WebhookClient.withUrl(webhookUrl);
+                manager.registerEvents(new DiscordWebhookChatForwarder(webhookClient), this);
             } else {
                 manager.registerEvents(new DiscordChannelChatForwarder(jda, subscribedChannels), this);
             }
@@ -65,12 +67,12 @@ public class DiscordBridgePlugin extends JavaPlugin {
 
                 if (webhookEnabled) {
                     manager.registerEvents((Listener) Class.forName("fwcd.mcdiscordbridge.plugin.listener.DiscordWebhookWebChatForwarder")
-                        .getConstructor(JDA.class, TextChannelRegistry.class)
-                        .newInstance(jda, subscribedChannels), this);
+                        .getConstructor(WebhookClient.class)
+                        .newInstance(webhookClient), this);
                 } else {
                     manager.registerEvents((Listener) Class.forName("fwcd.mcdiscordbridge.plugin.listener.DiscordChannelWebChatForwarder")
-                        .getConstructor(JDA.class, TextChannelRegistry.class)
-                        .newInstance(jda, subscribedChannels), this);
+                        .getConstructor(TextChannelRegistry.class, JDA.class)
+                        .newInstance(subscribedChannels, jda), this);
                 }
             } else {
                 DiscordBridgeLogger.get().info("Skipping Dynmap integration");

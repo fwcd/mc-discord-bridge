@@ -16,8 +16,12 @@ public class DiscordWebhookWebChatForwarder implements Listener {
     
     @EventHandler
     public void onWebChat(DynmapWebChatEvent event) {
+        String name = event.getName();
+        if (name.isEmpty()) {
+            name = "Mysterious web user";
+        }
         client.send(new WebhookMessageBuilder()
-            .setUsername(event.getName())
+            .setUsername(name)
             .setContent(event.getMessage())
             .build());
     }
