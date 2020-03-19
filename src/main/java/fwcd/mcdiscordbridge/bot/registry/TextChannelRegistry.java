@@ -6,7 +6,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.TextChannel;
 
 /**
  * An unordered collection of guild-associated Discord text channels.
@@ -52,6 +56,23 @@ public class TextChannelRegistry implements Iterable<String> {
     
     private void fireListener() {
         updateListener.accept(Collections.unmodifiableList(channelIds));
+    }
+    
+    public void broadcastMessage(Message message, JDA jda) {
+        for (String channelId : channelIds) {
+            TextChannel channel = jda.getTextChannelById(channelId);
+            if (channel != null) {
+                channel.sendMessage(message).queue();
+            }
+        }
+    }
+    
+    public void broadcastMessage(CharSequence content, JDA jda) {
+        broadcastMessage(new MessageBuilder(content).build(), jda);
+    }
+    
+    public void broadcastMessage(MessageEmbed embed, JDA jda) {
+        broadcastMessage(new MessageBuilder(embed).build(), jda);
     }
     
     @Override

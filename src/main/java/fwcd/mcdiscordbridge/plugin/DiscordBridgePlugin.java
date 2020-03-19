@@ -10,6 +10,7 @@ import club.minnced.discord.webhook.WebhookClient;
 import fwcd.mcdiscordbridge.bot.DiscordBridgeBot;
 import fwcd.mcdiscordbridge.bot.registry.TextChannelRegistry;
 import fwcd.mcdiscordbridge.plugin.listener.DiscordChannelChatForwarder;
+import fwcd.mcdiscordbridge.plugin.listener.DiscordChannelDeathMessageForwarder;
 import fwcd.mcdiscordbridge.plugin.listener.DiscordPresenceUpdater;
 import fwcd.mcdiscordbridge.plugin.listener.DiscordWebhookChatForwarder;
 import net.dv8tion.jda.api.JDA;
@@ -44,6 +45,7 @@ public class DiscordBridgePlugin extends JavaPlugin {
             
             PluginManager manager = getServer().getPluginManager();
             manager.registerEvents(new DiscordPresenceUpdater(jda), this);
+            manager.registerEvents(new DiscordChannelDeathMessageForwarder(jda, subscribedChannels), this);
             
             if (getConfig().getBoolean(DiscordBridgeConfigKey.WEBHOOK_ENABLED)) {
                 String webhookUrl = getConfig().getString(DiscordBridgeConfigKey.WEBHOOK_URL);
