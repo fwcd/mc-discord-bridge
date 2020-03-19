@@ -19,11 +19,16 @@ public class DiscordChannelJoinLeaveMessageForwarder implements Listener {
     
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        subscribedChannels.broadcastMessage(event.getJoinMessage(), jda);
+        subscribedChannels.broadcastMessage(stripColorCodes(event.getJoinMessage()), jda);
     }
     
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        subscribedChannels.broadcastMessage(event.getQuitMessage(), jda);
+        subscribedChannels.broadcastMessage(stripColorCodes(event.getQuitMessage()), jda);
+    }
+    
+    private String stripColorCodes(String message) {
+        System.out.println(message);
+        return message.replaceAll("§[a-fA-F0-9]", "");
     }
 }

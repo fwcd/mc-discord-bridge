@@ -18,6 +18,6 @@ public class DiscordChannelDeathMessageForwarder implements Listener {
     
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
-        subscribedChannels.broadcastMessage("_" + event.getDeathMessage() + "_", jda);
+        subscribedChannels.broadcastMessage(event.getDeathMessage(), jda);
     }
 }
