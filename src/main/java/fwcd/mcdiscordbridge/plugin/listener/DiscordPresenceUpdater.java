@@ -14,10 +14,10 @@ import net.dv8tion.jda.api.entities.Activity;
 /**
  * A listener for joins/quits that updates the activity.
  */
-public class DiscordPresenceUpdatingListener implements Listener {
+public class DiscordPresenceUpdater implements Listener {
     private final JDA jda;
     
-    public DiscordPresenceUpdatingListener(JDA jda) {
+    public DiscordPresenceUpdater(JDA jda) {
         this.jda = jda;
     }
 

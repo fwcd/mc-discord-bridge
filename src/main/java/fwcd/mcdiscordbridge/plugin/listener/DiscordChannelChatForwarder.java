@@ -12,11 +12,11 @@ import net.dv8tion.jda.api.entities.TextChannel;
  * A listener that forwards Minecraft chat messages to
  * subscribed Discord text channels.
  */
-public class DiscordChatForwardingListener implements Listener {
+public class DiscordChannelChatForwarder implements Listener {
     private final JDA jda;
     private final TextChannelRegistry subscribedChannels;
     
-    public DiscordChatForwardingListener(JDA jda, TextChannelRegistry subscribedChannels) {
+    public DiscordChannelChatForwarder(JDA jda, TextChannelRegistry subscribedChannels) {
         this.jda = jda;
         this.subscribedChannels = subscribedChannels;
     }

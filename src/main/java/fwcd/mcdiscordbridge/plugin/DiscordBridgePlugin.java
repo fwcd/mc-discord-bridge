@@ -9,9 +9,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import club.minnced.discord.webhook.WebhookClient;
 import fwcd.mcdiscordbridge.bot.DiscordBridgeBot;
 import fwcd.mcdiscordbridge.bot.registry.TextChannelRegistry;
-import fwcd.mcdiscordbridge.plugin.listener.DiscordChatForwardingListener;
-import fwcd.mcdiscordbridge.plugin.listener.DiscordPresenceUpdatingListener;
-import fwcd.mcdiscordbridge.plugin.listener.DiscordWebhookForwardingListener;
+import fwcd.mcdiscordbridge.plugin.listener.DiscordChannelChatForwarder;
+import fwcd.mcdiscordbridge.plugin.listener.DiscordPresenceUpdater;
+import fwcd.mcdiscordbridge.plugin.listener.DiscordWebhookChatForwarder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 
@@ -43,13 +43,13 @@ public class DiscordBridgePlugin extends JavaPlugin {
                 .build();
             
             PluginManager manager = getServer().getPluginManager();
-            manager.registerEvents(new DiscordPresenceUpdatingListener(jda), this);
+            manager.registerEvents(new DiscordPresenceUpdater(jda), this);
             
             if (getConfig().getBoolean(DiscordBridgeConfigKey.WEBHOOK_ENABLED)) {
                 String webhookUrl = getConfig().getString(DiscordBridgeConfigKey.WEBHOOK_URL);
-                manager.registerEvents(new DiscordWebhookForwardingListener(WebhookClient.withUrl(webhookUrl)), this);
+                manager.registerEvents(new DiscordWebhookChatForwarder(WebhookClient.withUrl(webhookUrl)), this);
             } else {
-                manager.registerEvents(new DiscordChatForwardingListener(jda, subscribedChannels), this);
+                manager.registerEvents(new DiscordChannelChatForwarder(jda, subscribedChannels), this);
             }
         } catch (Exception e) {
             getLogger().warning("Could not start Discord bridge: " + e.getClass().getSimpleName() + " - " + e.getMessage());

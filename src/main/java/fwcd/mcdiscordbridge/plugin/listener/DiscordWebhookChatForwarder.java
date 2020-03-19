@@ -7,10 +7,10 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 
-public class DiscordWebhookForwardingListener implements Listener {
+public class DiscordWebhookChatForwarder implements Listener {
     private final WebhookClient client;
     
-    public DiscordWebhookForwardingListener(WebhookClient client) {
+    public DiscordWebhookChatForwarder(WebhookClient client) {
         this.client = client;
     }
 
