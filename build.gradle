@@ -26,5 +26,4 @@ jar {
             .collect { it.isDirectory() ? it : zipTree(it) }
     }
     archiveBaseName = 'DiscordBridge'
-    destinationDirectory = file 'target'
 }
