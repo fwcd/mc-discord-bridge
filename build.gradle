@@ -9,11 +9,13 @@ repositories {
         name = 'spigot-repo'
         url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
     }
+    maven { url = 'https://jitpack.io' }
 }
 
 dependencies {
     implementation 'net.dv8tion:JDA:4.1.1_111'
     implementation 'club.minnced:discord-webhooks:0.1.6'
+    compileOnly 'com.github.webbukkit.dynmap:dynmap-api:ee20ea84e04ed80a1cb78a9525e6404cfcfa48c1'
     compileOnly 'org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT'
     compileOnly 'org.bukkit:bukkit:1.15.2-R0.1-SNAPSHOT'
 }
