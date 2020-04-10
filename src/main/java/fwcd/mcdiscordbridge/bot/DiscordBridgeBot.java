@@ -61,7 +61,12 @@ public class DiscordBridgeBot extends ListenerAdapter {
     private void handleCommandInvocation(String commandName, String args, Message message) {
         BotCommand command = commands.get(commandName);
         if (command != null) {
-            command.invoke(args, message);
+            try {
+                command.invoke(args, message);
+            } catch (Exception e) {
+                e.printStackTrace();
+                message.getChannel().sendMessage("A `" + e.getClass().getSimpleName() + "` occurred: `" + e.getMessage() + "`");
+            }
         } else {
             message.getChannel().sendMessage("Sorry, I could not find the command `" + commandName + "`").queue();
         }

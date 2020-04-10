@@ -36,10 +36,10 @@ public class WhitelistCommand implements BotCommand {
             if (subcommands.containsKey(subcommand)) {
                 subcommands.get(subcommand).accept(subArgs, message.getChannel());
             } else {
-                message.getChannel().sendMessage("Unrecognized subcommand `" + subcommand + "`, please use one of these: `" + subcommands.keySet() + "`");
+                message.getChannel().sendMessage("Unrecognized subcommand `" + subcommand + "`, please use one of these: `" + subcommands.keySet() + "`").queue();
             }
         } else {
-            message.getChannel().sendMessage("Please use one of these subcommands: `" + subcommands.keySet() + "`");
+            message.getChannel().sendMessage("Please use one of these subcommands: `" + subcommands.keySet() + "`").queue();
         }
     }
     
@@ -51,12 +51,12 @@ public class WhitelistCommand implements BotCommand {
                     OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
                     player.setWhitelisted(whitelisted);
                     if (whitelisted) {
-                        channel.sendMessage(":scroll: Successfully whitelisted `" + name + "`");
+                        channel.sendMessage(":scroll: Successfully whitelisted `" + name + "`").queue();
                     } else {
-                        channel.sendMessage(":wastebasket: Successfully unwhitelisted `" + name + "`");
+                        channel.sendMessage(":wastebasket: Successfully unwhitelisted `" + name + "`").queue();
                     }
                 } else {
-                    channel.sendMessage("Could not whitelist user: " + e.getMessage());
+                    channel.sendMessage("Could not whitelist user: `" + e.getMessage() + "`").queue();
                 }
                 return null;
             });
