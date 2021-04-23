@@ -13,12 +13,12 @@ repositories {
         url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
     }
     maven { url 'https://jitpack.io' }
-    maven { url 'https://m2.dv8tion.net/releases' }
+    maven { url 'https://m2.dv8tion.net/releases' } // for JDA
 }
 
 dependencies {
     implementation 'net.dv8tion:JDA:4.2.1_261'
-    implementation 'club.minnced:discord-webhooks:0.1.6'
+    implementation 'club.minnced:discord-webhooks:0.5.6'
     implementation 'commons-io:commons-io:2.6'
     implementation 'com.google.code.gson:gson:2.8.6'
     compileOnly 'com.github.webbukkit.dynmap:dynmap-api:ee20ea84e04ed80a1cb78a9525e6404cfcfa48c1'
