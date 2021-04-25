@@ -11,6 +11,7 @@ public class DiscordBridgeConfigKey {
     public static final String FORWARD_CHAT = "forward.chat";
     public static final String FORWARD_JOIN_LEAVE = "forward.joinLeave";
     public static final String FORWARD_DEATH = "forward.death";
+    public static final String FORWARD_ADVANCEMENT = "forward.advancement";
     public static final String FORWARD_WEB_CHAT = "forward.webChat";
 
     public static final String SUBSCRIBED_CHANNELS = "subscribedChannels";

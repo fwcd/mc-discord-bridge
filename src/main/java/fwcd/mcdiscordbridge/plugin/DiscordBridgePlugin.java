@@ -5,6 +5,7 @@ import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.BOT_PRESENCE_EN
 import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.BOT_TOKEN;
 import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.FORWARD_CHAT;
 import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.FORWARD_DEATH;
+import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.FORWARD_ADVANCEMENT;
 import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.FORWARD_JOIN_LEAVE;
 import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.FORWARD_WEB_CHAT;
 import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.SUBSCRIBED_CHANNELS;
@@ -22,6 +23,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import club.minnced.discord.webhook.WebhookClient;
 import fwcd.mcdiscordbridge.bot.DiscordBridgeBot;
 import fwcd.mcdiscordbridge.bot.registry.TextChannelRegistry;
+import fwcd.mcdiscordbridge.plugin.listener.DiscordChannelAdvancementForwarder;
 import fwcd.mcdiscordbridge.plugin.listener.DiscordChannelChatForwarder;
 import fwcd.mcdiscordbridge.plugin.listener.DiscordChannelDeathMessageForwarder;
 import fwcd.mcdiscordbridge.plugin.listener.DiscordChannelJoinLeaveMessageForwarder;
@@ -45,6 +47,7 @@ public class DiscordBridgePlugin extends JavaPlugin {
         config.addDefault(FORWARD_CHAT, true);
         config.addDefault(FORWARD_JOIN_LEAVE, true);
         config.addDefault(FORWARD_DEATH, true);
+        config.addDefault(FORWARD_ADVANCEMENT, true);
         config.addDefault(FORWARD_WEB_CHAT, true);
         config.addDefault(SUBSCRIBED_CHANNELS, Collections.emptyList());
         config.options().copyDefaults(true);
@@ -72,6 +75,9 @@ public class DiscordBridgePlugin extends JavaPlugin {
             }
             if (config.getBoolean(FORWARD_JOIN_LEAVE)) {
                 manager.registerEvents(new DiscordChannelJoinLeaveMessageForwarder(jda, subscribedChannels), this);
+            }
+            if (config.getBoolean(FORWARD_ADVANCEMENT)) {
+                manager.registerEvents(new DiscordChannelAdvancementForwarder(jda, subscribedChannels), this);
             }
             
             WebhookClient webhookClient = null;

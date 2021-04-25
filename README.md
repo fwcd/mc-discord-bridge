@@ -23,6 +23,7 @@ forward:
   chat: true
   joinLeave: true
   death: true
+  advancement: true
   webChat: true # only if Dynmap is present
 ```
 
