@@ -1,5 +1,16 @@
 package fwcd.mcdiscordbridge.plugin;
 
+import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.BOT_COMMAND_PREFIX;
+import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.BOT_PRESENCE_ENABLED;
+import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.BOT_TOKEN;
+import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.FORWARD_CHAT;
+import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.FORWARD_DEATH;
+import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.FORWARD_JOIN_LEAVE;
+import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.FORWARD_WEB_CHAT;
+import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.SUBSCRIBED_CHANNELS;
+import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.WEBHOOK_ENABLED;
+import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.WEBHOOK_URL;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -26,35 +37,47 @@ public class DiscordBridgePlugin extends JavaPlugin {
         DiscordBridgeLogger.get().info("Starting Discord bridge...");
         
         FileConfiguration config = getConfig();
-        config.addDefault(DiscordBridgeConfigKey.BOT_TOKEN, "");
-        config.addDefault(DiscordBridgeConfigKey.BOT_COMMAND_PREFIX, "+");
-        config.addDefault(DiscordBridgeConfigKey.WEBHOOK_URL, "");
-        config.addDefault(DiscordBridgeConfigKey.WEBHOOK_ENABLED, false);
-        config.addDefault(DiscordBridgeConfigKey.SUBSCRIBED_CHANNELS, Collections.emptyList());
+        config.addDefault(BOT_TOKEN, "");
+        config.addDefault(BOT_COMMAND_PREFIX, "+");
+        config.addDefault(BOT_PRESENCE_ENABLED, true);
+        config.addDefault(WEBHOOK_URL, "");
+        config.addDefault(WEBHOOK_ENABLED, false);
+        config.addDefault(FORWARD_CHAT, true);
+        config.addDefault(FORWARD_JOIN_LEAVE, true);
+        config.addDefault(FORWARD_DEATH, true);
+        config.addDefault(FORWARD_WEB_CHAT, true);
+        config.addDefault(SUBSCRIBED_CHANNELS, Collections.emptyList());
         config.options().copyDefaults(true);
         saveConfig();
         
         try {
-            List<String> initialSubscribedChannels = config.getStringList(DiscordBridgeConfigKey.SUBSCRIBED_CHANNELS);
+            List<String> initialSubscribedChannels = config.getStringList(SUBSCRIBED_CHANNELS);
             TextChannelRegistry subscribedChannels = new TextChannelRegistry(initialSubscribedChannels, chIds -> {
-                config.set(DiscordBridgeConfigKey.SUBSCRIBED_CHANNELS, chIds);
+                config.set(SUBSCRIBED_CHANNELS, chIds);
                 saveConfig();
             });
 
-            DiscordBridgeBot bot = new DiscordBridgeBot(config.getString(DiscordBridgeConfigKey.BOT_COMMAND_PREFIX), subscribedChannels);
-            JDA jda = JDABuilder.createDefault(config.getString(DiscordBridgeConfigKey.BOT_TOKEN))
+            DiscordBridgeBot bot = new DiscordBridgeBot(config.getString(BOT_COMMAND_PREFIX), subscribedChannels);
+            JDA jda = JDABuilder.createDefault(config.getString(BOT_TOKEN))
                 .addEventListeners(bot)
                 .build();
             
             PluginManager manager = getServer().getPluginManager();
-            manager.registerEvents(new DiscordPresenceUpdater(jda), this);
-            manager.registerEvents(new DiscordChannelDeathMessageForwarder(jda, subscribedChannels), this);
-            manager.registerEvents(new DiscordChannelJoinLeaveMessageForwarder(jda, subscribedChannels), this);
+
+            if (config.getBoolean(BOT_PRESENCE_ENABLED)) {
+                manager.registerEvents(new DiscordPresenceUpdater(jda), this);
+            }
+            if (config.getBoolean(FORWARD_DEATH)) {
+                manager.registerEvents(new DiscordChannelDeathMessageForwarder(jda, subscribedChannels), this);
+            }
+            if (config.getBoolean(FORWARD_JOIN_LEAVE)) {
+                manager.registerEvents(new DiscordChannelJoinLeaveMessageForwarder(jda, subscribedChannels), this);
+            }
             
-            boolean webhookEnabled = config.getBoolean(DiscordBridgeConfigKey.WEBHOOK_ENABLED);
             WebhookClient webhookClient = null;
-            if (webhookEnabled) {
-                String webhookUrl = config.getString(DiscordBridgeConfigKey.WEBHOOK_URL);
+
+            if (config.getBoolean(WEBHOOK_ENABLED)) {
+                String webhookUrl = config.getString(WEBHOOK_URL);
                 webhookClient = WebhookClient.withUrl(webhookUrl);
                 manager.registerEvents(new DiscordWebhookChatForwarder(webhookClient), this);
             } else {
@@ -63,10 +86,11 @@ public class DiscordBridgePlugin extends JavaPlugin {
             
             String dynmapPluginName = "dynmap";
             boolean dynmapAvailable = manager.getPlugin(dynmapPluginName) != null && manager.isPluginEnabled(dynmapPluginName);
-            if (dynmapAvailable) {
+
+            if (dynmapAvailable && config.getBoolean(FORWARD_WEB_CHAT)) {
                 DiscordBridgeLogger.get().info("Enabling Dynmap web chat integration...");
 
-                if (webhookEnabled) {
+                if (config.getBoolean(WEBHOOK_ENABLED)) {
                     manager.registerEvents((Listener) Class.forName("fwcd.mcdiscordbridge.plugin.listener.DiscordWebhookWebChatForwarder")
                         .getConstructor(WebhookClient.class)
                         .newInstance(webhookClient), this);

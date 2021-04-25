@@ -15,3 +15,21 @@ webhook:
   url: YOUR_WEBHOOK_URL
   enabled: true
 ```
+
+Optionally, you can configure exactly which events should be forwarded to Discord:
+
+```yaml
+forward:
+  chat: true
+  joinLeave: true
+  death: true
+  webChat: true # only if Dynmap is present
+```
+
+Additionally, you can configure whether the Discord integration should display the current player count through a custom presence:
+
+```yaml
+bot:
+  presence:
+    enabled: true
+```
