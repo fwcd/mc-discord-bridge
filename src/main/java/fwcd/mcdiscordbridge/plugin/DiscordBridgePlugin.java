@@ -47,7 +47,7 @@ public class DiscordBridgePlugin extends JavaPlugin {
         config.addDefault(FORWARD_CHAT, true);
         config.addDefault(FORWARD_JOIN_LEAVE, true);
         config.addDefault(FORWARD_DEATH, true);
-        config.addDefault(FORWARD_ADVANCEMENT, true);
+        config.addDefault(FORWARD_ADVANCEMENT, false); // disabled for now
         config.addDefault(FORWARD_WEB_CHAT, true);
         config.addDefault(SUBSCRIBED_CHANNELS, Collections.emptyList());
         config.options().copyDefaults(true);

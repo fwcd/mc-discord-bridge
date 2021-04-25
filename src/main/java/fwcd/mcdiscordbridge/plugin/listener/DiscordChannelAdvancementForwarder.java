@@ -19,6 +19,7 @@ public class DiscordChannelAdvancementForwarder implements Listener {
     @EventHandler
     public void onPlayerAdvancementDone(PlayerAdvancementDoneEvent event) {
         // TODO: Figure out a way to get the display name instead
+        // TODO: Filter out irrelevant advancements (e.g. new recipes) or let the user configure it
         String advancement = event.getAdvancement().getKey().getKey();
         subscribedChannels.broadcastMessage(event.getPlayer().getName() + " has made the advancement [" + advancement + "]", jda);
     }
