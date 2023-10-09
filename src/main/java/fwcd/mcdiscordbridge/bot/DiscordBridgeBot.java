@@ -34,7 +34,7 @@ public class DiscordBridgeBot extends ListenerAdapter {
         commands.put("unsummon", new UnsummonCommand(subscribedChannels));
         commands.put("list", new ListCommand());
         commands.put("whitelist", new WhitelistCommand());
-        commands.put("help", (args, msg) -> msg.getChannel().sendMessage(new EmbedBuilder()
+        commands.put("help", (args, msg) -> msg.getChannel().sendMessageEmbeds(new EmbedBuilder()
             .setTitle("Available Commands")
             .setDescription(commands.keySet().stream()
                 .map(name -> commandPrefix + name)

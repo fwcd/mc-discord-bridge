@@ -11,7 +11,7 @@ import org.bukkit.OfflinePlayer;
 
 import fwcd.mcdiscordbridge.utils.MinecraftProfileQuery;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 
 public class WhitelistCommand implements BotCommand {
     private static final Pattern SUBCOMMAND_PATTERN = Pattern.compile("(\\w+)(?:\\s+(.+))?");

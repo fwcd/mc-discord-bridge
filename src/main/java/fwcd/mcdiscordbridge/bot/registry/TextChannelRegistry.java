@@ -7,10 +7,11 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 /**
  * An unordered collection of guild-associated Discord text channels.
@@ -58,7 +59,7 @@ public class TextChannelRegistry implements Iterable<String> {
         updateListener.accept(Collections.unmodifiableList(channelIds));
     }
     
-    public void broadcastMessage(Message message, JDA jda) {
+    public void broadcastMessage(MessageCreateData message, JDA jda) {
         for (String channelId : channelIds) {
             TextChannel channel = jda.getTextChannelById(channelId);
             if (channel != null) {
@@ -67,12 +68,12 @@ public class TextChannelRegistry implements Iterable<String> {
         }
     }
     
-    public void broadcastMessage(CharSequence content, JDA jda) {
-        broadcastMessage(new MessageBuilder(content).build(), jda);
+    public void broadcastMessage(String content, JDA jda) {
+        broadcastMessage(new MessageCreateBuilder().setContent(content).build(), jda);
     }
     
     public void broadcastMessage(MessageEmbed embed, JDA jda) {
-        broadcastMessage(new MessageBuilder(embed).build(), jda);
+        broadcastMessage(new MessageCreateBuilder().setEmbeds(embed).build(), jda);
     }
     
     @Override
