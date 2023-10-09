@@ -1,4 +1,4 @@
-package fwcd.mcdiscordbridge.plugin;
+package dev.fwcd.mcdiscordbridge.plugin;
 
 public class DiscordBridgeConfigKey {
     public static final String BOT_COMMAND_PREFIX = "bot.commandPrefix";

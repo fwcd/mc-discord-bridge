@@ -1,4 +1,4 @@
-package fwcd.mcdiscordbridge.bot;
+package dev.fwcd.mcdiscordbridge.bot;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,13 +8,13 @@ import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
-import fwcd.mcdiscordbridge.bot.command.BotCommand;
-import fwcd.mcdiscordbridge.bot.command.EchoCommand;
-import fwcd.mcdiscordbridge.bot.command.SummonCommand;
-import fwcd.mcdiscordbridge.bot.command.UnsummonCommand;
-import fwcd.mcdiscordbridge.bot.command.WhitelistCommand;
-import fwcd.mcdiscordbridge.bot.command.ListCommand;
-import fwcd.mcdiscordbridge.bot.registry.TextChannelRegistry;
+import dev.fwcd.mcdiscordbridge.bot.command.BotCommand;
+import dev.fwcd.mcdiscordbridge.bot.command.EchoCommand;
+import dev.fwcd.mcdiscordbridge.bot.command.ListCommand;
+import dev.fwcd.mcdiscordbridge.bot.command.SummonCommand;
+import dev.fwcd.mcdiscordbridge.bot.command.UnsummonCommand;
+import dev.fwcd.mcdiscordbridge.bot.command.WhitelistCommand;
+import dev.fwcd.mcdiscordbridge.bot.registry.TextChannelRegistry;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;

@@ -1,4 +1,4 @@
-package fwcd.mcdiscordbridge.bot.command;
+package dev.fwcd.mcdiscordbridge.bot.command;
 
 import net.dv8tion.jda.api.entities.Message;
 

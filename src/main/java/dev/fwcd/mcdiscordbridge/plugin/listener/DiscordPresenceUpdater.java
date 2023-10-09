@@ -1,4 +1,4 @@
-package fwcd.mcdiscordbridge.plugin.listener;
+package dev.fwcd.mcdiscordbridge.plugin.listener;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -6,8 +6,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import fwcd.mcdiscordbridge.plugin.DiscordBridgeLogger;
-import fwcd.mcdiscordbridge.utils.StringUtils;
+import dev.fwcd.mcdiscordbridge.plugin.DiscordBridgeLogger;
+import dev.fwcd.mcdiscordbridge.utils.StringUtils;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;
 

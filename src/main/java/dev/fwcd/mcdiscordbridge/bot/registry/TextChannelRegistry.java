@@ -1,4 +1,4 @@
-package fwcd.mcdiscordbridge.bot.registry;
+package dev.fwcd.mcdiscordbridge.bot.registry;
 
 import java.util.ArrayList;
 import java.util.Collections;

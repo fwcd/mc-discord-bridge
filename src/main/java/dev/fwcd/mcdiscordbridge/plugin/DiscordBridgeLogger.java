@@ -1,4 +1,4 @@
-package fwcd.mcdiscordbridge.plugin;
+package dev.fwcd.mcdiscordbridge.plugin;
 
 import java.util.logging.Logger;
 

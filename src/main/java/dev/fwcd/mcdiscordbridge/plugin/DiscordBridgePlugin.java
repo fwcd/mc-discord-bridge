@@ -1,16 +1,16 @@
-package fwcd.mcdiscordbridge.plugin;
+package dev.fwcd.mcdiscordbridge.plugin;
 
-import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.BOT_COMMAND_PREFIX;
-import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.BOT_PRESENCE_ENABLED;
-import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.BOT_TOKEN;
-import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.FORWARD_CHAT;
-import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.FORWARD_DEATH;
-import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.FORWARD_ADVANCEMENT;
-import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.FORWARD_JOIN_LEAVE;
-import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.FORWARD_WEB_CHAT;
-import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.SUBSCRIBED_CHANNELS;
-import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.WEBHOOK_ENABLED;
-import static fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.WEBHOOK_URL;
+import static dev.fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.BOT_COMMAND_PREFIX;
+import static dev.fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.BOT_PRESENCE_ENABLED;
+import static dev.fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.BOT_TOKEN;
+import static dev.fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.FORWARD_ADVANCEMENT;
+import static dev.fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.FORWARD_CHAT;
+import static dev.fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.FORWARD_DEATH;
+import static dev.fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.FORWARD_JOIN_LEAVE;
+import static dev.fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.FORWARD_WEB_CHAT;
+import static dev.fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.SUBSCRIBED_CHANNELS;
+import static dev.fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.WEBHOOK_ENABLED;
+import static dev.fwcd.mcdiscordbridge.plugin.DiscordBridgeConfigKey.WEBHOOK_URL;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,14 +21,14 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import club.minnced.discord.webhook.WebhookClient;
-import fwcd.mcdiscordbridge.bot.DiscordBridgeBot;
-import fwcd.mcdiscordbridge.bot.registry.TextChannelRegistry;
-import fwcd.mcdiscordbridge.plugin.listener.DiscordChannelAdvancementForwarder;
-import fwcd.mcdiscordbridge.plugin.listener.DiscordChannelChatForwarder;
-import fwcd.mcdiscordbridge.plugin.listener.DiscordChannelDeathMessageForwarder;
-import fwcd.mcdiscordbridge.plugin.listener.DiscordChannelJoinLeaveMessageForwarder;
-import fwcd.mcdiscordbridge.plugin.listener.DiscordPresenceUpdater;
-import fwcd.mcdiscordbridge.plugin.listener.DiscordWebhookChatForwarder;
+import dev.fwcd.mcdiscordbridge.bot.DiscordBridgeBot;
+import dev.fwcd.mcdiscordbridge.bot.registry.TextChannelRegistry;
+import dev.fwcd.mcdiscordbridge.plugin.listener.DiscordChannelAdvancementForwarder;
+import dev.fwcd.mcdiscordbridge.plugin.listener.DiscordChannelChatForwarder;
+import dev.fwcd.mcdiscordbridge.plugin.listener.DiscordChannelDeathMessageForwarder;
+import dev.fwcd.mcdiscordbridge.plugin.listener.DiscordChannelJoinLeaveMessageForwarder;
+import dev.fwcd.mcdiscordbridge.plugin.listener.DiscordPresenceUpdater;
+import dev.fwcd.mcdiscordbridge.plugin.listener.DiscordWebhookChatForwarder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 

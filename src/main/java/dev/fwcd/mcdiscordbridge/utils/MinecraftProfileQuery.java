@@ -1,4 +1,4 @@
-package fwcd.mcdiscordbridge.utils;
+package dev.fwcd.mcdiscordbridge.utils;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;

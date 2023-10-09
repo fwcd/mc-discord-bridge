@@ -1,4 +1,4 @@
-package fwcd.mcdiscordbridge.bot.command;
+package dev.fwcd.mcdiscordbridge.bot.command;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
-import fwcd.mcdiscordbridge.utils.MinecraftProfileQuery;
+import dev.fwcd.mcdiscordbridge.utils.MinecraftProfileQuery;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 

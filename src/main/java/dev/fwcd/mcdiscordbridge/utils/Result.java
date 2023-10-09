@@ -1,4 +1,4 @@
-package fwcd.mcdiscordbridge.utils;
+package dev.fwcd.mcdiscordbridge.utils;
 
 /**
  * Either a value or an exception. Useful for

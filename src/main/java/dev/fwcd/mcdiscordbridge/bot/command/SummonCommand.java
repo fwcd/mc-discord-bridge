@@ -1,6 +1,6 @@
-package fwcd.mcdiscordbridge.bot.command;
+package dev.fwcd.mcdiscordbridge.bot.command;
 
-import fwcd.mcdiscordbridge.bot.registry.TextChannelRegistry;
+import dev.fwcd.mcdiscordbridge.bot.registry.TextChannelRegistry;
 import net.dv8tion.jda.api.entities.Message;
 
 public class SummonCommand implements BotCommand {

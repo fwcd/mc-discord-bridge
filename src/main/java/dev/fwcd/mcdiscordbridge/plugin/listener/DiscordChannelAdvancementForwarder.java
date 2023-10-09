@@ -1,10 +1,10 @@
-package fwcd.mcdiscordbridge.plugin.listener;
+package dev.fwcd.mcdiscordbridge.plugin.listener;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 
-import fwcd.mcdiscordbridge.bot.registry.TextChannelRegistry;
+import dev.fwcd.mcdiscordbridge.bot.registry.TextChannelRegistry;
 import net.dv8tion.jda.api.JDA;
 
 public class DiscordChannelAdvancementForwarder implements Listener {

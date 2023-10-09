@@ -1,4 +1,4 @@
-package fwcd.mcdiscordbridge.utils;
+package dev.fwcd.mcdiscordbridge.utils;
 
 public final class StringUtils {
     private StringUtils() {}

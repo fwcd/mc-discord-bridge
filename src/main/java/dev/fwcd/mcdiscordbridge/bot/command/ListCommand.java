@@ -1,10 +1,10 @@
-package fwcd.mcdiscordbridge.bot.command;
+package dev.fwcd.mcdiscordbridge.bot.command;
 
 import net.dv8tion.jda.api.entities.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import fwcd.mcdiscordbridge.utils.StringUtils;
+import dev.fwcd.mcdiscordbridge.utils.StringUtils;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
