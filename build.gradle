@@ -33,6 +33,7 @@ jar {
 }
 
 shadowJar {
+    archiveBaseName.set('DiscordBridge')
     enableRelocation true
     relocationPrefix "${project.group}.dependencies"
 }
