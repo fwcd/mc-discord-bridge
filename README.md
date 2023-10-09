@@ -6,7 +6,7 @@ A Spigot plugin that enables two-way messaging between Minecraft and Discord.
 
 ## Building
 
-To build the plugin JAR, run `./gradlew jar`.
+To build the plugin JAR, run `./gradlew shadowJar`. The plugin JAR should then be located in `build/libs`.
 
 ## Usage
 
