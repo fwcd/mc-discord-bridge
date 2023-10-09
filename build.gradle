@@ -33,27 +33,6 @@ jar {
 }
 
 shadowJar {
-    def newBasePackage = "${project.group}.dependencies"
-    def depPackages = [
-        "com.fasterxml",
-        "com.iwebpp",
-        "com.neovisionaries",
-        "com.google",
-        "net.dv8tion",
-        "club.minnced",
-        "gnu.trove",
-        "kotlin",
-        "okhttp3",
-        "okio",
-        "org.apache",
-        "org.intellij",
-        "org.jetbrains",
-        "org.json",
-        "org.slf4j",
-        "tomp2p",
-    ]
-
-    for (depPackage in depPackages) {
-        relocate depPackage, "${newBasePackage}.${depPackage}"
-    }
+    enableRelocation true
+    relocationPrefix "${project.group}.dependencies"
 }
