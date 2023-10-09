@@ -29,7 +29,7 @@ jobs:
           GH_REPO: ${{ github.repository }}
         run: |
           tag="${{ steps.tag.outputs.tag }}"
-          gh release create "$tag" --title "Version $tag"
+          gh release create "$tag" --title "$tag"
       - name: Upload assets
         env:
           GH_TOKEN: ${{ github.token }}
