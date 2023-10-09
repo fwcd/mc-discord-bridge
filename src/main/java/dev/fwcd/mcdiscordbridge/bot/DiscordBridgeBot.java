@@ -73,6 +73,6 @@ public class DiscordBridgeBot extends ListenerAdapter {
     }
     
     private void handleMinecraftForwarding(Message message) {
-        Bukkit.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + "[Discord] " + message.getAuthor().getName() + ": " + ChatColor.WHITE + message.getContentDisplay());
+        Bukkit.getServer().broadcastMessage(ChatColor.LIGHT_PURPLE + "[Discord] " + message.getAuthor().getEffectiveName() + ": " + ChatColor.WHITE + message.getContentDisplay());
     }
 }
