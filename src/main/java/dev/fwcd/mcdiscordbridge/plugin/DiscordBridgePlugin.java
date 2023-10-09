@@ -31,6 +31,7 @@ import dev.fwcd.mcdiscordbridge.plugin.listener.DiscordPresenceUpdater;
 import dev.fwcd.mcdiscordbridge.plugin.listener.DiscordWebhookChatForwarder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 
 public class DiscordBridgePlugin extends JavaPlugin {
     @Override
@@ -62,6 +63,7 @@ public class DiscordBridgePlugin extends JavaPlugin {
 
             DiscordBridgeBot bot = new DiscordBridgeBot(config.getString(BOT_COMMAND_PREFIX), subscribedChannels);
             JDA jda = JDABuilder.createDefault(config.getString(BOT_TOKEN))
+                .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                 .addEventListeners(bot)
                 .build();
             
