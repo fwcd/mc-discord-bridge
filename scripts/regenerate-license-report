@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Regenerates the license report.
+
+set -e
+cd "$(dirname "$0")/.."
+
+./gradlew licenseReport && cp build/reports/licenses/licenseReport.html src/main/resources
