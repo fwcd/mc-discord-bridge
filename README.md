@@ -1,4 +1,7 @@
 # Discord Bridge Plugin for Minecraft
+
+[![Build](https://github.com/fwcd/mc-discord-bridge/actions/workflows/build.yml/badge.svg)](https://github.com/fwcd/mc-discord-bridge/actions/workflows/build.yml)
+
 A Spigot plugin that enables two-way messaging between Minecraft and Discord.
 
 ## Building
