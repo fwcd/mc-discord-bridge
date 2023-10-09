@@ -1,5 +1,5 @@
 name: DiscordBridge
 main: dev.fwcd.mcdiscordbridge.plugin.DiscordBridgePlugin
-version: '0.3.0'
+version: '0.3.1'
 api-version: 1.16
 softdepend: [dynmap]
