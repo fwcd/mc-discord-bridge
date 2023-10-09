@@ -23,5 +23,9 @@ jobs:
           java-version: ${{ matrix.java }}
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
-      - name: Build
-        run: ./gradlew build
+      - name: Build plugin JAR
+        run: ./gradlew shadowJar
+      - uses: actions/upload-artifact@v3
+        with:
+          name: DiscordBridge JAR
+          path: build/libs/
