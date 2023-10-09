@@ -9,7 +9,7 @@ A Spigot plugin that enables two-way messaging between Minecraft and Discord.
 To build the plugin JAR, run `./gradlew shadowJar`. The plugin JAR should then be located in `build/libs`.
 
 > [!IMPORTANT]
-> While the source code is [MIT-licensed](LICENSE), the released JAR is [LGPL-licensed](src/main/resources/LICENSE) since it repackages LGPL libraries.
+> While the source code is [MIT-licensed](LICENSE), the JAR is [LGPL-licensed](src/main/resources/LICENSE) since it repackages LGPL libraries.
 
 ## Usage
 
