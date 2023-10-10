@@ -13,7 +13,7 @@ To build the plugin JAR, make sure to have Java 17 installed and run `./gradlew 
 
 ## Usage
 
-To use the plugin, place the JAR in your Spigot/Paper 1.20.2 server's `plugins` folder. Additionally, create a subdirectory named `DiscordBridge` with a file `config.yaml`:
+To use the plugin, place the JAR in your Spigot/Paper 1.20.2 server's `plugins` folder. Additionally, create a subdirectory named `DiscordBridge` with a file `config.yml`:
 
 ```yaml
 bot:
