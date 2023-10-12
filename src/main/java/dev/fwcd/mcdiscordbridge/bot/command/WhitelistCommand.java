@@ -3,12 +3,14 @@ package dev.fwcd.mcdiscordbridge.bot.command;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
+import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
+import dev.fwcd.mcdiscordbridge.plugin.DiscordBridgeLogger;
 import dev.fwcd.mcdiscordbridge.utils.MinecraftProfileQuery;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
@@ -46,18 +48,24 @@ public class WhitelistCommand implements BotCommand {
     private void setPlayerWhitelisted(String name, boolean whitelisted, MessageChannel channel) {
         new MinecraftProfileQuery(name)
             .getUUIDAsync()
-            .handle((uuid, e) -> {
-                if (e == null) {
-                    OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
-                    player.setWhitelisted(whitelisted);
-                    if (whitelisted) {
-                        channel.sendMessage(":scroll: Successfully whitelisted `" + name + "`").queue();
-                    } else {
-                        channel.sendMessage(":wastebasket: Successfully unwhitelisted `" + name + "`").queue();
-                    }
+            .thenAccept(uuid -> {
+                DiscordBridgeLogger.get().fine(() -> "Fetching OfflinePlayer for " + uuid);
+                OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
+
+                DiscordBridgeLogger.get().fine(() -> "Whitelisting player " + uuid);
+                player.setWhitelisted(whitelisted);
+
+                if (whitelisted) {
+                    DiscordBridgeLogger.get().info(() -> "Successfully whitelisted '" + name + "'");
+                    channel.sendMessage(":scroll: Successfully whitelisted `" + name + "`").queue();
                 } else {
-                    channel.sendMessage("Could not whitelist user: `" + e.getMessage() + "`").queue();
+                    DiscordBridgeLogger.get().info(() -> "Successfully unwhitelisted '" + name + "'");
+                    channel.sendMessage(":wastebasket: Successfully unwhitelisted `" + name + "`").queue();
                 }
+            })
+            .exceptionally(e -> {
+                DiscordBridgeLogger.get().log(Level.WARNING, e, () -> "Could not whitelist '" + name + "'");
+                channel.sendMessage("Could not whitelist '" + name + "': `" + e.getMessage() + "`").queue();
                 return null;
             });
     }
