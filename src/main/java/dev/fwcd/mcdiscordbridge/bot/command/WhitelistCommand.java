@@ -13,7 +13,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import dev.fwcd.mcdiscordbridge.plugin.DiscordBridgeLogger;
-import dev.fwcd.mcdiscordbridge.plugin.DiscordBridgePlugin;
 import dev.fwcd.mcdiscordbridge.utils.MinecraftProfileQuery;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
