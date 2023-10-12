@@ -2,6 +2,7 @@ package dev.fwcd.mcdiscordbridge.bot.command;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
@@ -9,14 +10,17 @@ import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import dev.fwcd.mcdiscordbridge.plugin.DiscordBridgeLogger;
+import dev.fwcd.mcdiscordbridge.plugin.DiscordBridgePlugin;
 import dev.fwcd.mcdiscordbridge.utils.MinecraftProfileQuery;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 
 public class WhitelistCommand implements BotCommand {
     private static final Pattern SUBCOMMAND_PATTERN = Pattern.compile("(\\w+)(?:\\s+(.+))?");
+    private final JavaPlugin plugin;
     private final Map<String, BiConsumer<String, MessageChannel>> subcommands = new HashMap<>();
     
     {
@@ -26,6 +30,10 @@ public class WhitelistCommand implements BotCommand {
         subcommands.put("remove", (args, channel) -> {
             setPlayerWhitelisted(args, false, channel);
         });
+    }
+
+    public WhitelistCommand(JavaPlugin plugin) {
+        this.plugin = plugin;
     }
 
     @Override
@@ -48,13 +56,24 @@ public class WhitelistCommand implements BotCommand {
     private void setPlayerWhitelisted(String name, boolean whitelisted, MessageChannel channel) {
         new MinecraftProfileQuery(name)
             .getUUIDAsync()
-            .thenAccept(uuid -> {
+            .thenCompose(uuid -> {
                 DiscordBridgeLogger.get().fine(() -> "Fetching OfflinePlayer for " + uuid);
                 OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
+                CompletableFuture<Void> future = new CompletableFuture<>();
 
-                DiscordBridgeLogger.get().fine(() -> "Whitelisting player " + uuid);
-                player.setWhitelisted(whitelisted);
+                Bukkit.getScheduler().runTask(plugin, () -> {
+                    try {
+                        DiscordBridgeLogger.get().fine(() -> "Whitelisting player " + uuid);
+                        player.setWhitelisted(whitelisted);
+                        future.complete(null);
+                    } catch (Exception e) {
+                        future.completeExceptionally(e);
+                    }
+                });
 
+                return future;
+            })
+            .thenRun(() -> {
                 if (whitelisted) {
                     DiscordBridgeLogger.get().info(() -> "Successfully whitelisted '" + name + "'");
                     channel.sendMessage(":scroll: Successfully whitelisted `" + name + "`").queue();

@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import dev.fwcd.mcdiscordbridge.bot.command.BotCommand;
 import dev.fwcd.mcdiscordbridge.bot.command.EchoCommand;
@@ -25,7 +26,7 @@ public class DiscordBridgeBot extends ListenerAdapter {
     private final TextChannelRegistry subscribedChannels;
     private final Map<String, BotCommand> commands = new HashMap<>();
     
-    public DiscordBridgeBot(String commandPrefix, TextChannelRegistry subscribedChannels) {
+    public DiscordBridgeBot(JavaPlugin plugin, String commandPrefix, TextChannelRegistry subscribedChannels) {
         this.subscribedChannels = subscribedChannels;
         commandPattern = Pattern.compile(Pattern.quote(commandPrefix) + "(\\w+)\\s*(.*)");
 
@@ -33,7 +34,7 @@ public class DiscordBridgeBot extends ListenerAdapter {
         commands.put("summon", new SummonCommand(subscribedChannels));
         commands.put("unsummon", new UnsummonCommand(subscribedChannels));
         commands.put("list", new ListCommand());
-        commands.put("whitelist", new WhitelistCommand());
+        commands.put("whitelist", new WhitelistCommand(plugin));
         commands.put("help", (args, msg) -> msg.getChannel().sendMessageEmbeds(new EmbedBuilder()
             .setTitle("Available Commands")
             .setDescription(commands.keySet().stream()

@@ -61,7 +61,7 @@ public class DiscordBridgePlugin extends JavaPlugin {
                 saveConfig();
             });
 
-            DiscordBridgeBot bot = new DiscordBridgeBot(config.getString(BOT_COMMAND_PREFIX), subscribedChannels);
+            DiscordBridgeBot bot = new DiscordBridgeBot(this, config.getString(BOT_COMMAND_PREFIX), subscribedChannels);
             JDA jda = JDABuilder.createDefault(config.getString(BOT_TOKEN))
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                 .addEventListeners(bot)
