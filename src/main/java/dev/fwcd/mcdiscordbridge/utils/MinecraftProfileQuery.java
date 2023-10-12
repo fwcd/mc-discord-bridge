@@ -21,10 +21,7 @@ public class MinecraftProfileQuery {
         this.name = name;
     }
     
-    public static class Response {
-        private String id;
-        private String name;
-    }
+    public static record Response(String id, String name) {}
     
     public UUID getUUIDSync() {
         try {
