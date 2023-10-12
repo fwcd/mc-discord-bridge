@@ -74,16 +74,13 @@ public class WhitelistCommand implements BotCommand {
                 return future;
             })
             .thenRun(() -> {
-                if (whitelisted) {
-                    DiscordBridgeLogger.get().info(() -> "Successfully whitelisted '" + name + "'");
-                    channel.sendMessage(":scroll: Successfully whitelisted `" + name + "`").queue();
-                } else {
-                    DiscordBridgeLogger.get().info(() -> "Successfully unwhitelisted '" + name + "'");
-                    channel.sendMessage(":wastebasket: Successfully unwhitelisted `" + name + "`").queue();
-                }
+                String emoji = whitelisted ? ":scroll:" : ":wastebasket:";
+                String message = "Successfully " + (whitelisted ? "" : "un") + "whitelisted `" + name + "`";
+                DiscordBridgeLogger.get().info(() -> message);
+                channel.sendMessage(emoji + " " + message).queue();
             })
             .exceptionally(e -> {
-                DiscordBridgeLogger.get().log(Level.WARNING, e, () -> "Could not whitelist '" + name + "'");
+                DiscordBridgeLogger.get().log(Level.WARNING, e, () -> "Could not whitelist `" + name + "`");
                 channel.sendMessage("Could not whitelist '" + name + "': `" + e.getMessage() + "`").queue();
                 return null;
             });
