@@ -36,9 +36,13 @@ jar {
 shadowJar {
     archiveBaseName.set('DiscordBridge')
 
-    // To avoid shading the logging implementations, we have to list
-    // them explicitly. Upstream support for exclusions is pending:
-    // https://github.com/johnrengelman/shadow/pull/555
+    // Unfortunately, we cannot shade the logging implementation since SLF4J
+    // (which JDA uses) otherwise won't find the StaticLoggerBinder and fall
+    // back to writing everything to stdot.
+    
+    // To avoid shading the logging implementation, we have to list every
+    // dependency that we wish to include explicitly instead. Upstream support
+    // for exclusions is pending: https://github.com/johnrengelman/shadow/pull/555
 
     def packagesToRelocate = [
         "club.minnced",
