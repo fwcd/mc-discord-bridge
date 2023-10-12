@@ -58,13 +58,16 @@ public class WhitelistCommand implements BotCommand {
             .thenCompose(uuid -> {
                 DiscordBridgeLogger.get().fine(() -> "Fetching OfflinePlayer for " + uuid);
                 OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
-                CompletableFuture<Void> future = new CompletableFuture<>();
+                CompletableFuture<Boolean> future = new CompletableFuture<>();
 
                 Bukkit.getScheduler().runTask(plugin, () -> {
                     try {
                         DiscordBridgeLogger.get().fine(() -> "Whitelisting player " + uuid);
-                        player.setWhitelisted(whitelisted);
-                        future.complete(null);
+                        boolean isNoop = player.isWhitelisted() == whitelisted;
+                        if (!isNoop) {
+                            player.setWhitelisted(whitelisted);
+                        }
+                        future.complete(isNoop);
                     } catch (Exception e) {
                         future.completeExceptionally(e);
                     }
@@ -72,9 +75,12 @@ public class WhitelistCommand implements BotCommand {
 
                 return future;
             })
-            .thenRun(() -> {
-                String emoji = whitelisted ? ":scroll:" : ":wastebasket:";
-                String message = "Successfully " + (whitelisted ? "" : "un") + "whitelisted `" + name + "`";
+            .thenAccept(isNoop -> {
+                String emoji = isNoop ? ":information_source:" : whitelisted ? ":scroll:" : ":wastebasket:";
+                String word = (whitelisted ? "" : "un") + "whitelisted";
+                String message = isNoop
+                    ? "`" + name + "` is already " + word
+                    : "Successfully " + word + " `" + name + "`";
                 DiscordBridgeLogger.get().info(() -> message);
                 channel.sendMessage(emoji + " " + message).queue();
             })
